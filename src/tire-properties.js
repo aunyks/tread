@@ -20,8 +20,10 @@ class TireProperties extends Map {
           commentOrSection.details.header.details.symbol.details.value
         const sectionMap = new Map()
 
-        for (const sectionBodyLine of commentOrSection.details.body.details
-          .lines) {
+        for (
+          const sectionBodyLine of commentOrSection.details.body.details
+            .lines
+        ) {
           const line = sectionBodyLine.details.line
           if (line.type === AST_NODE_TYPE.GENERIC_STATEMENT) {
             const statement = line.details.statement
@@ -30,7 +32,7 @@ class TireProperties extends Map {
                 const { symbol, value } = statement.details
                 sectionMap.set(
                   symbol.details.value.toUpperCase(),
-                  value.details.value
+                  value.details.value,
                 )
                 break
               }

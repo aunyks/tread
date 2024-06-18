@@ -26,7 +26,6 @@ class SectionNotFoundError extends Error {
   }
 
   /**
-   *
    * @returns {string} the name of the section that was not found
    */
   getSectionName() {
@@ -47,7 +46,6 @@ class PropertyNotFoundError extends Error {
   }
 
   /**
-   *
    * @returns {string} the name of the property that was not found
    */
   getPropertyName() {
@@ -71,7 +69,7 @@ class Pacejka2002 extends BaseTireModel {
     super()
     if (!tireProperties) {
       throw new Error(
-        `Required parameter "tireProperties" was falsey. Expected TireProperties object, received ${tireProperties}`
+        `Required parameter "tireProperties" was falsey. Expected TireProperties object, received ${tireProperties}`,
       )
     }
     this.unitScales = {
@@ -150,13 +148,11 @@ class Pacejka2002 extends BaseTireModel {
     errors.push(...this.loadAligning())
     errors.push(...this.loadConditions())
 
-    this.verticalParameters.qfz1 =
-      (this.verticalParameters.verticalStiffness *
-        this.dimensionParameters.unloadedTireRadius) /
+    this.verticalParameters.qfz1 = (this.verticalParameters.verticalStiffness *
+      this.dimensionParameters.unloadedTireRadius) /
       this.verticalParameters.fNomin
     this.verticalParameters.qfz2 = 0
-    const hasTireConditions =
-      this.conditionsParameters.ip != 1.0 &&
+    const hasTireConditions = this.conditionsParameters.ip != 1.0 &&
       this.conditionsParameters.ipNom != 1.0
     if (!hasTireConditions) {
       const paramsToZero = [
@@ -224,8 +220,8 @@ class Pacejka2002 extends BaseTireModel {
       default:
         errors.push(
           new Error(
-            `No length unit conversion found for length property ${lengthUnit}`
-          )
+            `No length unit conversion found for length property ${lengthUnit}`,
+          ),
         )
     }
     const timeUnit = unitProperties.get('TIME')
@@ -246,8 +242,8 @@ class Pacejka2002 extends BaseTireModel {
       default:
         errors.push(
           new Error(
-            `No time unit conversion found for time property ${timeUnit}`
-          )
+            `No time unit conversion found for time property ${timeUnit}`,
+          ),
         )
     }
     const angleUnit = unitProperties.get('ANGLE')
@@ -263,8 +259,8 @@ class Pacejka2002 extends BaseTireModel {
       default:
         errors.push(
           new Error(
-            `No angle unit conversion found for angle property ${angleUnit}`
-          )
+            `No angle unit conversion found for angle property ${angleUnit}`,
+          ),
         )
     }
     const massUnit = unitProperties.get('MASS')
@@ -291,8 +287,8 @@ class Pacejka2002 extends BaseTireModel {
       default:
         errors.push(
           new Error(
-            `No mass unit conversion found for mass property ${massUnit}`
-          )
+            `No mass unit conversion found for mass property ${massUnit}`,
+          ),
         )
     }
     const forceUnit = unitProperties.get('FORCE')
@@ -323,8 +319,8 @@ class Pacejka2002 extends BaseTireModel {
       default:
         errors.push(
           new Error(
-            `No force unit conversion found for force property ${forceUnit}`
-          )
+            `No force unit conversion found for force property ${forceUnit}`,
+          ),
         )
     }
     const pressureUnit = unitProperties.get('PRESSURE')
@@ -349,18 +345,18 @@ class Pacejka2002 extends BaseTireModel {
       default:
         errors.push(
           new Error(
-            `No pressure unit conversion found for pressure property ${pressureUnit}`
-          )
+            `No pressure unit conversion found for pressure property ${pressureUnit}`,
+          ),
         )
     }
-    this.unitScales.speedMetersPerSecond =
-      this.unitScales.lengthMeters / this.unitScales.timeSeconds
+    this.unitScales.speedMetersPerSecond = this.unitScales.lengthMeters /
+      this.unitScales.timeSeconds
     this.unitScales.inertiaKilogramMetersSquared =
       this.unitScales.massKilograms *
       this.unitScales.lengthMeters *
       this.unitScales.lengthMeters
-    this.unitScales.stiffnessNewtonsPerMeter =
-      this.unitScales.forceNewtons / this.unitScales.lengthMeters
+    this.unitScales.stiffnessNewtonsPerMeter = this.unitScales.forceNewtons /
+      this.unitScales.lengthMeters
     this.unitScales.dampingNewtonsPerMetersPerSecond =
       this.unitScales.forceNewtons / this.unitScales.speedMetersPerSecond
     return errors
@@ -377,8 +373,8 @@ class Pacejka2002 extends BaseTireModel {
     if (!['PAC2002', 'MF_05'].includes(propertyFileFormat?.toUpperCase())) {
       errors.push(
         new Error(
-          `Acceptable tire property file format not found: Expected "PAC2002" or "MF_05", found ${propertyFileFormat}`
-        )
+          `Acceptable tire property file format not found: Expected "PAC2002" or "MF_05", found ${propertyFileFormat}`,
+        ),
       )
     }
     const measuredTireSide = modelSection.get('TYRESIDE')
@@ -436,8 +432,8 @@ class Pacejka2002 extends BaseTireModel {
     }
     const tireWidth = dimensionSection.get('WIDTH')
     if (tireWidth) {
-      this.dimensionParameters.tireWidth =
-        this.unitScales.lengthMeters * tireWidth
+      this.dimensionParameters.tireWidth = this.unitScales.lengthMeters *
+        tireWidth
     } else {
       this.dimensionParameters.tireWidth = 0
       errors.push(new PropertyNotFoundError('WIDTH', 'DIMENSION'))
@@ -612,7 +608,7 @@ class Pacejka2002 extends BaseTireModel {
       } else {
         this.longitudinalParameters[param.toLowerCase()] = 0
         errors.push(
-          new PropertyNotFoundError(param, 'LONGITUDINAL_COEFFICIENTS')
+          new PropertyNotFoundError(param, 'LONGITUDINAL_COEFFICIENTS'),
         )
       }
     })
@@ -648,7 +644,7 @@ class Pacejka2002 extends BaseTireModel {
       } else {
         this.overturningParameters[param.toLowerCase()] = 0
         errors.push(
-          new PropertyNotFoundError(param, 'OVERTURNING_COEFFICIENTS')
+          new PropertyNotFoundError(param, 'OVERTURNING_COEFFICIENTS'),
         )
       }
     })
@@ -842,55 +838,49 @@ class Pacejka2002 extends BaseTireModel {
     verticalLoadNewtons,
     inclinationAngleRadians,
     coefficientOfFriction,
-    target
+    target,
   ) {
     const referenceCoefficientOfFriction = this.properties.get('MU0') || 0.8
-    const scaledNominalVerticalLoad =
-      this.verticalParameters.fNomin * this.scalingParameters.lfzo
+    const scaledNominalVerticalLoad = this.verticalParameters.fNomin *
+      this.scalingParameters.lfzo
     const deltaVerticalLoad =
       (verticalLoadNewtons - scaledNominalVerticalLoad) /
       scaledNominalVerticalLoad
     const C = this.lateralParameters.pcy1 * this.scalingParameters.lcy
-    const mu =
-      (this.lateralParameters.pdy1 +
-        this.lateralParameters.pdy2 * deltaVerticalLoad) *
+    const mu = (this.lateralParameters.pdy1 +
+      this.lateralParameters.pdy2 * deltaVerticalLoad) *
       (1.0 -
         this.lateralParameters.pdy3 * Math.pow(inclinationAngleRadians, 2)) *
       this.scalingParameters.lmuy
-    const D =
-      (mu * verticalLoadNewtons * coefficientOfFriction) /
+    const D = (mu * verticalLoadNewtons * coefficientOfFriction) /
       referenceCoefficientOfFriction
-    let E =
-      (this.lateralParameters.pey1 +
-        this.lateralParameters.pey2 * deltaVerticalLoad) *
+    let E = (this.lateralParameters.pey1 +
+      this.lateralParameters.pey2 * deltaVerticalLoad) *
       (1.0 -
         (this.lateralParameters.pey3 +
-          this.lateralParameters.pey4 * inclinationAngleRadians) *
+            this.lateralParameters.pey4 * inclinationAngleRadians) *
           Math.sign(slipAngleRadians)) *
       this.scalingParameters.ley
     if (E > 1.0) E = 1.0
-    const BCD =
-      this.lateralParameters.pky1 *
+    const BCD = this.lateralParameters.pky1 *
       this.verticalParameters.fNomin *
       Math.sin(
         2.0 *
           Math.atan(
             verticalLoadNewtons /
-              (this.lateralParameters.pky2 * scaledNominalVerticalLoad)
-          )
+              (this.lateralParameters.pky2 * scaledNominalVerticalLoad),
+          ),
       ) *
       this.scalingParameters.lfzo *
       this.scalingParameters.lky
 
     const B = BCD / (C * D)
 
-    const horizontalShift =
-      (this.lateralParameters.phy1 +
-        this.lateralParameters.phy2 * deltaVerticalLoad) *
+    const horizontalShift = (this.lateralParameters.phy1 +
+      this.lateralParameters.phy2 * deltaVerticalLoad) *
       this.scalingParameters.lhy
 
-    const verticalShift =
-      verticalLoadNewtons *
+    const verticalShift = verticalLoadNewtons *
       ((this.lateralParameters.pvy1 +
         this.lateralParameters.pvy2 * deltaVerticalLoad) *
         this.scalingParameters.lvy) *
@@ -899,16 +889,15 @@ class Pacejka2002 extends BaseTireModel {
     const shiftedBAlpha = clamp(
       B * (slipAngleRadians + horizontalShift),
       -Math.PI / 2 + DEFAULT_EPSILON,
-      Math.PI / 2 - DEFAULT_EPSILON
+      Math.PI / 2 - DEFAULT_EPSILON,
     )
 
-    target[0] =
-      D *
+    target[0] = D *
         Math.sin(
           C *
             Math.atan(
-              shiftedBAlpha - E * (shiftedBAlpha - Math.atan(shiftedBAlpha))
-            )
+              shiftedBAlpha - E * (shiftedBAlpha - Math.atan(shiftedBAlpha)),
+            ),
         ) +
       verticalShift
     target[1] = horizontalShift + verticalShift / BCD
@@ -929,43 +918,37 @@ class Pacejka2002 extends BaseTireModel {
     slipRatio,
     verticalLoadNewtons,
     inclinationAngleRadians,
-    coefficientOfFriction
+    coefficientOfFriction,
   ) {
     const referenceCoefficientOfFriction = this.properties.get('MU0') || 0.8
-    const scaledNominalVerticalLoad =
-      this.verticalParameters.fNomin * this.scalingParameters.lfzo
+    const scaledNominalVerticalLoad = this.verticalParameters.fNomin *
+      this.scalingParameters.lfzo
     const deltaVerticalLoad =
       (verticalLoadNewtons - scaledNominalVerticalLoad) /
       scaledNominalVerticalLoad
     const C = this.longitudinalParameters.pcx1 * this.scalingParameters.lcx
-    const mu =
-      (this.longitudinalParameters.pdx1 +
-        this.longitudinalParameters.pdx2 * deltaVerticalLoad) *
+    const mu = (this.longitudinalParameters.pdx1 +
+      this.longitudinalParameters.pdx2 * deltaVerticalLoad) *
       (1.0 -
         this.longitudinalParameters.pdx3 *
           Math.pow(inclinationAngleRadians, 2)) *
       this.scalingParameters.lmux
 
-    const D =
-      (mu * verticalLoadNewtons * coefficientOfFriction) /
+    const D = (mu * verticalLoadNewtons * coefficientOfFriction) /
       referenceCoefficientOfFriction
-    let E =
-      (this.longitudinalParameters.pex1 +
-        this.longitudinalParameters.pex2 * deltaVerticalLoad +
-        this.longitudinalParameters.pex3 * Math.pow(deltaVerticalLoad, 2)) *
+    let E = (this.longitudinalParameters.pex1 +
+      this.longitudinalParameters.pex2 * deltaVerticalLoad +
+      this.longitudinalParameters.pex3 * Math.pow(deltaVerticalLoad, 2)) *
       this.scalingParameters.lex
     if (E > 1.0) E = 1.0
-    const BCD =
-      verticalLoadNewtons *
+    const BCD = verticalLoadNewtons *
       (this.longitudinalParameters.pkx1 + this.longitudinalParameters.pkx2) *
       this.scalingParameters.lkx
     const B = BCD / (C * D)
-    const horizontalShift =
-      (this.longitudinalParameters.phx1 +
-        this.longitudinalParameters.phx2 * deltaVerticalLoad) *
+    const horizontalShift = (this.longitudinalParameters.phx1 +
+      this.longitudinalParameters.phx2 * deltaVerticalLoad) *
       this.scalingParameters.lhx
-    const verticalShift =
-      verticalLoadNewtons *
+    const verticalShift = verticalLoadNewtons *
       (this.longitudinalParameters.pvx1 +
         this.longitudinalParameters.pvx2 * deltaVerticalLoad) *
       this.scalingParameters.lvx *
@@ -977,8 +960,8 @@ class Pacejka2002 extends BaseTireModel {
         Math.sin(
           C *
             Math.atan(
-              shiftedBKappa - E * (shiftedBKappa - Math.atan(shiftedBKappa))
-            )
+              shiftedBKappa - E * (shiftedBKappa - Math.atan(shiftedBKappa)),
+            ),
         ) +
       verticalShift
     )
@@ -995,7 +978,7 @@ class Pacejka2002 extends BaseTireModel {
   computeOverturningMoment(
     lateralForceNewtons,
     verticalLoadNewtons,
-    inclinationAngleRadians
+    inclinationAngleRadians,
   ) {
     const r0 = this.properties.get('R0') || 1.0
     return (
@@ -1012,23 +995,23 @@ class Pacejka2002 extends BaseTireModel {
             Math.pow(
               Math.atan(
                 (this.overturningParameters.qsx6 * verticalLoadNewtons) /
-                  this.verticalParameters.fNomin
+                  this.verticalParameters.fNomin,
               ),
-              2
-            )
+              2,
+            ),
         ) *
         Math.sin(
           this.overturningParameters.qsx7 * inclinationAngleRadians +
             this.overturningParameters.qsx8 *
               Math.atan(
                 (this.overturningParameters.qsx9 * lateralForceNewtons) /
-                  this.verticalParameters.fNomin
-              )
+                  this.verticalParameters.fNomin,
+              ),
         ) +
       this.overturningParameters.qsx10 *
         Math.atan(
           (this.overturningParameters.qsx11 * verticalLoadNewtons) /
-            this.verticalParameters.fNomin
+            this.verticalParameters.fNomin,
         ) *
         inclinationAngleRadians
     )
@@ -1045,7 +1028,7 @@ class Pacejka2002 extends BaseTireModel {
   computeRollingResistanceMoment(
     longitudinalForceNewtons,
     verticalLoadNewtons,
-    inclinationAngleRadians
+    inclinationAngleRadians,
   ) {
     const r0 = this.properties.get('R0') || 1.0
     // This is a simplification
@@ -1063,12 +1046,12 @@ class Pacejka2002 extends BaseTireModel {
         this.rollingParameters.qsy3 * vStar +
         this.rollingParameters.qsy4 * Math.pow(vStar, 4) +
         (this.rollingParameters.qsy5 +
-          (this.rollingParameters.qsy6 * verticalLoadNewtons) /
-            this.verticalParameters.fNomin) *
+            (this.rollingParameters.qsy6 * verticalLoadNewtons) /
+              this.verticalParameters.fNomin) *
           Math.pow(inclinationAngleRadians, 2)) *
       Math.pow(
         verticalLoadNewtons / this.verticalParameters.fNomin,
-        this.rollingParameters.qsy7
+        this.rollingParameters.qsy7,
       )
     )
   }
@@ -1092,62 +1075,57 @@ class Pacejka2002 extends BaseTireModel {
     lateralForceNewtons,
     sHf_F_y,
     B_F_y,
-    C_F_y
+    C_F_y,
   ) {
     const r0 = this.properties.get('R0') || 1.0
-    const scaledNominalVerticalLoad =
-      this.verticalParameters.fNomin * this.scalingParameters.lfzo
+    const scaledNominalVerticalLoad = this.verticalParameters.fNomin *
+      this.scalingParameters.lfzo
     const deltaVerticalLoad =
       (verticalLoadNewtons - scaledNominalVerticalLoad) /
       scaledNominalVerticalLoad
     const C = this.aligningParameters.qcz1
-    const scaledInclinationAngle =
-      inclinationAngleRadians * this.scalingParameters.lgaz
-    const horizontalShift =
-      this.aligningParameters.qhz1 +
+    const scaledInclinationAngle = inclinationAngleRadians *
+      this.scalingParameters.lgaz
+    const horizontalShift = this.aligningParameters.qhz1 +
       this.aligningParameters.qhz2 * deltaVerticalLoad +
       (this.aligningParameters.qhz3 +
-        this.aligningParameters.qhz4 * deltaVerticalLoad) *
+          this.aligningParameters.qhz4 * deltaVerticalLoad) *
         scaledInclinationAngle
     const horizShiftedSlipAngle = slipAngleRadians + horizontalShift
-    const B =
-      (((this.aligningParameters.qbz1 +
-        this.aligningParameters.qbz2 * deltaVerticalLoad +
-        this.aligningParameters.qbz3 * Math.pow(deltaVerticalLoad, 2)) *
-        (1.0 +
-          this.aligningParameters.qbz4 * scaledInclinationAngle +
-          this.aligningParameters.qbz5 * Math.abs(scaledInclinationAngle)) *
-        r0) /
-        scaledNominalVerticalLoad) *
+    const B = (((this.aligningParameters.qbz1 +
+      this.aligningParameters.qbz2 * deltaVerticalLoad +
+      this.aligningParameters.qbz3 * Math.pow(deltaVerticalLoad, 2)) *
+      (1.0 +
+        this.aligningParameters.qbz4 * scaledInclinationAngle +
+        this.aligningParameters.qbz5 * Math.abs(scaledInclinationAngle)) *
+      r0) /
+      scaledNominalVerticalLoad) *
       this.scalingParameters.ltr
-    const D =
-      ((verticalLoadNewtons *
-        (this.aligningParameters.qdz1 +
-          this.aligningParameters.qdz2 * deltaVerticalLoad) *
-        (1.0 +
-          this.aligningParameters.qdz3 * scaledInclinationAngle +
-          this.aligningParameters.qdz4 * Math.pow(scaledInclinationAngle, 2)) *
-        r0) /
-        scaledNominalVerticalLoad) *
+    const D = ((verticalLoadNewtons *
+      (this.aligningParameters.qdz1 +
+        this.aligningParameters.qdz2 * deltaVerticalLoad) *
+      (1.0 +
+        this.aligningParameters.qdz3 * scaledInclinationAngle +
+        this.aligningParameters.qdz4 * Math.pow(scaledInclinationAngle, 2)) *
+      r0) /
+      scaledNominalVerticalLoad) *
       this.scalingParameters.ltr
-    const E =
-      (this.aligningParameters.qez1 +
-        this.aligningParameters.qez2 * deltaVerticalLoad +
-        this.aligningParameters.qez3 * Math.pow(deltaVerticalLoad, 2)) *
+    const E = (this.aligningParameters.qez1 +
+      this.aligningParameters.qez2 * deltaVerticalLoad +
+      this.aligningParameters.qez3 * Math.pow(deltaVerticalLoad, 2)) *
       (1.0 +
         ((this.aligningParameters.qez4 +
-          this.aligningParameters.qez5 * scaledInclinationAngle) *
-          Math.atan(B * C * horizShiftedSlipAngle)) /
+            this.aligningParameters.qez5 * scaledInclinationAngle) *
+            Math.atan(B * C * horizShiftedSlipAngle)) /
           (Math.PI / 2))
     const scaledBAlpha = B * horizShiftedSlipAngle
-    const t =
-      D *
+    const t = D *
       Math.cos(
         C *
           Math.atan(
             B * scaledBAlpha -
-              E * (B * scaledBAlpha - Math.atan(B * scaledBAlpha))
-          )
+              E * (B * scaledBAlpha - Math.atan(B * scaledBAlpha)),
+          ),
       ) *
       Math.cos(slipAngleRadians)
     return (
@@ -1159,7 +1137,7 @@ class Pacejka2002 extends BaseTireModel {
         r0,
         sHf_F_y,
         B_F_y,
-        C_F_y
+        C_F_y,
       )
     )
   }
@@ -1181,28 +1159,26 @@ class Pacejka2002 extends BaseTireModel {
     r0,
     sHf_F_y,
     B_F_y,
-    C_F_y
+    C_F_y,
   ) {
-    const scaledNominalVerticalLoad =
-      this.verticalParameters.fNomin * this.scalingParameters.lfzo
+    const scaledNominalVerticalLoad = this.verticalParameters.fNomin *
+      this.scalingParameters.lfzo
     const deltaVerticalLoad =
       (verticalLoadNewtons - scaledNominalVerticalLoad) /
       scaledNominalVerticalLoad
     const shiftedSlipAngle = slipAngleRadians + sHf_F_y
-    const scaledInclinationAngle =
-      inclinationAngleRadians * this.scalingParameters.lgaz
+    const scaledInclinationAngle = inclinationAngleRadians *
+      this.scalingParameters.lgaz
     const C = 1.0
-    const B =
-      (this.aligningParameters.qbz9 * this.scalingParameters.lky) /
+    const B = (this.aligningParameters.qbz9 * this.scalingParameters.lky) /
         this.scalingParameters.lmuy +
       this.aligningParameters.qbz10 * B_F_y * C_F_y
-    const D =
-      verticalLoadNewtons *
+    const D = verticalLoadNewtons *
       ((this.aligningParameters.qdz6 +
-        this.aligningParameters.qdz7 * deltaVerticalLoad) *
-        this.scalingParameters.ltr +
+            this.aligningParameters.qdz7 * deltaVerticalLoad) *
+          this.scalingParameters.ltr +
         (this.aligningParameters.qdz8 +
-          this.aligningParameters.qdz9 * deltaVerticalLoad) *
+            this.aligningParameters.qdz9 * deltaVerticalLoad) *
           scaledInclinationAngle) *
       r0 *
       this.scalingParameters.lmuy

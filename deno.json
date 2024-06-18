@@ -13,6 +13,11 @@
       "tests"
     ]
   },
+  "tasks": {
+    "test": "deno test --allow-read=tests/fixtures",
+    "fmt": "deno fmt",
+    "lint": "deno lint"
+  },
   "fmt": {
     "useTabs": false,
     "indentWidth": 2,
@@ -25,6 +30,11 @@
   "lint": {
     "exclude": [
       "vendor/**"
-    ]
+    ],
+    "rules": {
+      "exclude": [
+        "no-slow-types"
+      ]
+    }
   }
 }
