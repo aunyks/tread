@@ -1,4 +1,18 @@
 {
+  "name": "@hivoltagexyz/tread",
+  "version": "2024.06.0",
+  "exports": {
+    ".": "./src/mod.js",
+    "./models": "./src/tire-models/mod.js",
+    "./parsers": "./src/parsers/mod.js"
+  },
+  "publish": {
+    "exclude": [
+      "examples",
+      "scripts",
+      "tests"
+    ]
+  },
   "fmt": {
     "useTabs": false,
     "indentWidth": 2,
