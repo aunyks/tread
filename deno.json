@@ -1,0 +1,16 @@
+{
+  "fmt": {
+    "useTabs": false,
+    "indentWidth": 2,
+    "semiColons": false,
+    "singleQuote": true,
+    "exclude": [
+      "vendor/**"
+    ]
+  },
+  "lint": {
+    "exclude": [
+      "vendor/**"
+    ]
+  }
+}
