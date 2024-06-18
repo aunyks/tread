@@ -4,7 +4,7 @@ A JavaScript library for modeling and realtime simulation of automotive tires.
 
 ## Installation
 
-Tread runs everywhere. Install it for local use with any JavaScript runtime, or download it and run it in the browser.
+Tread runs everywhere. Install it for local use with any JavaScript runtime, or self-host and use it in the browser.
 
 ### Node.js
 
@@ -16,6 +16,12 @@ npx jsr add @hivoltagexyz/tread
 
 ```shell
 deno add @hivoltagexyz/tread
+```
+
+### Bun
+
+```shell
+bunx jsr add @hivoltagexyz/tread
 ```
 
 ### Cloudflare Workers
@@ -31,7 +37,7 @@ See `examples/` for a growing list of example use cases for this library.
 
 ## Documentation
 
-See `docs/docs.txt` for this library's documentation.
+See [jsr.io/@hivoltagexyz/tread/doc](https://jsr.io/@hivoltagexyz/tread/doc) or `docs/docs.txt` for this library's documentation.
 
 ## Versioning
 
