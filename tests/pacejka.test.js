@@ -1,4 +1,4 @@
-import { Pacejka2002 } from '../src/tire-models/pac2002.js'
+import { Pacejka2002 } from '../src/tire-models/pacejka2002.js'
 import { beforeAll, describe } from 'jsr:@std/testing/bdd'
 import { TireProperties } from '../src/tire-properties.js'
 

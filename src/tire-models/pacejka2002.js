@@ -90,7 +90,7 @@ class Pacejka2002 extends BaseTireModel {
       calculationMode: 0,
     }
     this.dimensionParameters = {
-      unloadedTireRadius: 1.0,
+      unloadedTireRadius: 0.0,
       tireWidth: 0.0,
       aspectRatio: 0.0,
       rimRadius: 0.0,

@@ -3,7 +3,7 @@
 A JavaScript library for modeling and realtime simulation of automotive tires.
 
 ```javascript
-import { Pacejka2002 } from 'https://jsr.io/@hivoltagexyz/tread/2024.6.0/src/mod.js'
+import { Pacejka2002 } from 'https://jsr.io/@hivoltagexyz/tread/2024.6.1/src/mod.js'
 
 // Load tire properties
 const properties = new TireProperties()
@@ -41,6 +41,11 @@ const longitudinalForce = pac2002Model.computeLongitudinalForce(
 )
 ```
 
+## Supported Models
+
+- Pacejka 2002 ([10.1016/C2010-0-68548-8](https://doi.org/10.1016/C2010-0-68548-8))
+- Harsh and Shyrokau 2019 ([10.3390/app9245328](https://doi.org/10.3390/app9245328))
+
 ## Installation
 
 Tread runs everywhere standard Web APIs are present. Install it for local use
@@ -49,7 +54,7 @@ with any JavaScript runtime, or use it in the browser.
 ### Browser
 
 ```javascript
-import * as Tread from 'https://jsr.io/@hivoltagexyz/tread/2024.6.0/src/mod.js'
+import * as Tread from 'https://jsr.io/@hivoltagexyz/tread/2024.6.1/src/mod.js'
 ```
 
 ### Node.js
