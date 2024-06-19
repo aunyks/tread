@@ -10,7 +10,8 @@
     "exclude": [
       "examples",
       "scripts",
-      "tests"
+      "tests",
+      "docs"
     ]
   },
   "tasks": {

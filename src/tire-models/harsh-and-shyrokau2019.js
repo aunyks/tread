@@ -5,6 +5,10 @@ import {
 } from './pacejka2002.js'
 import { clamp, DEFAULT_EPSILON } from '../math.js'
 
+/**
+ * An extension to the Pacejka Magic Formula model that models
+ * includes temperature effects in tire force calculations.
+ */
 class HarshAndShyrokau2019 extends Pacejka2002 {
   constructor(config) {
     super(config)

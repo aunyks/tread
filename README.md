@@ -87,8 +87,7 @@ See `examples/` for a growing list of example use cases for this library.
 
 ## Documentation
 
-See [jsr.io/@hivoltagexyz/tread/doc](https://jsr.io/@hivoltagexyz/tread/doc) or
-`docs/api.md` for this library's documentation.
+See [jsr.io/@hivoltagexyz/tread/doc](https://jsr.io/@hivoltagexyz/tread/doc) for this library's documentation.
 
 ## Versioning
 
