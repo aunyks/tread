@@ -65,6 +65,10 @@ class PropertyNotFoundError extends Error {
  * "Tire and Vehicle Dynamics" for more information.
  */
 class Pacejka2002 extends BaseTireModel {
+  /**
+   * @param {Object} modelConfig
+   * @param {TireProperties} modelConfig.tireProperties - The tire properties that will be used to initialize the model.
+   */
   constructor({ tireProperties }) {
     super()
     if (!tireProperties) {
@@ -134,6 +138,11 @@ class Pacejka2002 extends BaseTireModel {
     this.properties = tireProperties
   }
 
+  /**
+   * Initializes the model using the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during initialization.
+   */
   initializeFromProperties() {
     const errors = []
     errors.push(...this.loadUnits())
@@ -187,6 +196,11 @@ class Pacejka2002 extends BaseTireModel {
     return errors
   }
 
+  /**
+   * Loads the UNITS section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadUnits() {
     const errors = []
     const unitProperties = this.properties.get('UNITS')
@@ -362,6 +376,11 @@ class Pacejka2002 extends BaseTireModel {
     return errors
   }
 
+  /**
+   * Loads the MODEL section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadModel() {
     const errors = []
     const modelSection = this.properties.get('MODEL')
@@ -415,6 +434,11 @@ class Pacejka2002 extends BaseTireModel {
     return errors
   }
 
+  /**
+   * Loads the DIMENSION section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadDimension() {
     const errors = []
     const dimensionSection = this.properties.get('DIMENSION')
@@ -448,6 +472,11 @@ class Pacejka2002 extends BaseTireModel {
     return errors
   }
 
+  /**
+   * Loads the VERTICAL section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadVertical() {
     const errors = []
     const verticalSection = this.properties.get('VERTICAL')
@@ -515,6 +544,11 @@ class Pacejka2002 extends BaseTireModel {
     return errors
   }
 
+  /**
+   * Loads the SCALING section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadScaling() {
     const errors = []
     const scalingSection = this.properties.get('SCALING_COEFFICIENTS')
@@ -563,6 +597,11 @@ class Pacejka2002 extends BaseTireModel {
     return errors
   }
 
+  /**
+   * Loads the LONGITUDINAL_COEFFICIENTS section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadLongitudinal() {
     const errors = []
     const longitudinalSection = this.properties.get('LONGITUDINAL_COEFFICIENTS')
@@ -615,6 +654,11 @@ class Pacejka2002 extends BaseTireModel {
     return errors
   }
 
+  /**
+   * Loads the OVERTURNING_COEFFICIENTS section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadOverturning() {
     const errors = []
     const overturningSection = this.properties.get('OVERTURNING_COEFFICIENTS')
@@ -651,6 +695,11 @@ class Pacejka2002 extends BaseTireModel {
     return errors
   }
 
+  /**
+   * Loads the LATERAL_COEFFICIENTS section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadLateral() {
     const errors = []
     const lateralSection = this.properties.get('LATERAL_COEFFICIENTS')
@@ -711,6 +760,11 @@ class Pacejka2002 extends BaseTireModel {
     return errors
   }
 
+  /**
+   * Loads the ROLLING_COEFFICIENTS section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadRolling() {
     const errors = []
     const rollingSection = this.properties.get('ROLLING_COEFFICIENTS')
@@ -743,6 +797,11 @@ class Pacejka2002 extends BaseTireModel {
     return errors
   }
 
+  /**
+   * Loads the ALIGNING_COEFFICIENTS section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadAligning() {
     const errors = []
     const aligningSection = this.properties.get('ALIGNING_COEFFICIENTS')
@@ -799,6 +858,11 @@ class Pacejka2002 extends BaseTireModel {
     return errors
   }
 
+  /**
+   * Loads the TIRE_CONDITIONS section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadConditions() {
     const errors = []
     const conditionsSection = this.properties.get('TIRE_CONDITIONS')

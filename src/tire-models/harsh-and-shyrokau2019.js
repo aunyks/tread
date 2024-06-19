@@ -10,17 +10,27 @@ import { clamp, DEFAULT_EPSILON } from '../math.js'
  * includes temperature effects in tire force calculations.
  */
 class HarshAndShyrokau2019 extends Pacejka2002 {
-  constructor(config) {
-    super(config)
+  constructor(modelConfig) {
+    super(modelConfig)
 
     this.temperatureParameters = {}
   }
 
+  /**
+   * Initializes the model using the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during initialization.
+   */
   initializeFromProperties() {
-    super.initializeFromProperties()
-    this.loadTemperature()
+    const errors = super.initializeFromProperties()
+    return [...errors, ...this.loadTemperature()]
   }
 
+  /**
+   * Loads the TEMPERATURE_COEFFICIENTS section of the tire properties provided during construction.
+   *
+   * @returns An array of `Error`s, including `PropertyNotFoundError`s and `SectionNotFoundError`s, that were discovered during load.
+   */
   loadTemperature() {
     const errors = []
     const longitudinalSection = this.properties.get('TEMPERATURE_COEFFICIENTS')
@@ -47,7 +57,7 @@ class HarshAndShyrokau2019 extends Pacejka2002 {
       } else {
         this.temperatureParameters[param.toLowerCase()] = 0
         errors.push(
-          new PropertyNotFoundError(param, 'TEMPERATURE_COEFFICIENTS')
+          new PropertyNotFoundError(param, 'TEMPERATURE_COEFFICIENTS'),
         )
       }
     })
@@ -72,46 +82,42 @@ class HarshAndShyrokau2019 extends Pacejka2002 {
     // Unique to model
     temperatureCelsius,
     //
-    target
+    target,
   ) {
     const referenceCoefficientOfFriction = this.properties.get('MU0') || 0.8
 
-    const scaledNominalVerticalLoad =
-      this.verticalParameters.fNomin * this.scalingParameters.lfzo
+    const scaledNominalVerticalLoad = this.verticalParameters.fNomin *
+      this.scalingParameters.lfzo
     const deltaVerticalLoad =
       (verticalLoadNewtons - scaledNominalVerticalLoad) /
       scaledNominalVerticalLoad
     const C = this.lateralParameters.pcy1 * this.scalingParameters.lcy
-    const mu =
-      (this.lateralParameters.pdy1 +
-        this.lateralParameters.pdy2 * deltaVerticalLoad) *
+    const mu = (this.lateralParameters.pdy1 +
+      this.lateralParameters.pdy2 * deltaVerticalLoad) *
       (1.0 -
         this.lateralParameters.pdy3 * Math.pow(inclinationAngleRadians, 2)) *
       this.scalingParameters.lmuy
-    const dBase =
-      (mu * verticalLoadNewtons * coefficientOfFriction) /
+    const dBase = (mu * verticalLoadNewtons * coefficientOfFriction) /
       referenceCoefficientOfFriction
     // Unique to model
     const deltaTemperature =
       (temperatureCelsius - this.temperatureParameters.tref) /
       this.temperatureParameters.tref
-    const D =
-      (1 +
-        this.temperatureParameters.ty3 * deltaTemperature +
-        this.temperatureParameters.ty4 * Math.pow(deltaTemperature, 2)) *
+    const D = (1 +
+      this.temperatureParameters.ty3 * deltaTemperature +
+      this.temperatureParameters.ty4 * Math.pow(deltaTemperature, 2)) *
       dBase
     //
-    let E =
-      (this.lateralParameters.pey1 +
-        this.lateralParameters.pey2 * deltaVerticalLoad) *
+    let E = (this.lateralParameters.pey1 +
+      this.lateralParameters.pey2 * deltaVerticalLoad) *
       (1.0 -
         (this.lateralParameters.pey3 +
-          this.lateralParameters.pey4 * inclinationAngleRadians) *
+            this.lateralParameters.pey4 * inclinationAngleRadians) *
           Math.sign(slipAngleRadians)) *
       this.scalingParameters.ley
     if (E > 1.0) E = 1.0
-    const temperatureScaler =
-      1 + this.temperatureParameters.ty1 * deltaTemperature
+    const temperatureScaler = 1 +
+      this.temperatureParameters.ty1 * deltaTemperature
     const BCD =
       // Unique to model
       temperatureScaler *
@@ -124,22 +130,20 @@ class HarshAndShyrokau2019 extends Pacejka2002 {
             (this.lateralParameters.pky2 *
               scaledNominalVerticalLoad *
               // Unique to model
-              (1 + this.temperatureParameters.ty2 * deltaTemperature))
+              (1 + this.temperatureParameters.ty2 * deltaTemperature)),
           //
-        )
+        ),
       ) *
       this.scalingParameters.lfzo *
       this.scalingParameters.lky
 
     const B = BCD / (C * D)
 
-    const horizontalShift =
-      (this.lateralParameters.phy1 +
-        this.lateralParameters.phy2 * deltaVerticalLoad) *
+    const horizontalShift = (this.lateralParameters.phy1 +
+      this.lateralParameters.phy2 * deltaVerticalLoad) *
       this.scalingParameters.lhy
 
-    const verticalShift =
-      verticalLoadNewtons *
+    const verticalShift = verticalLoadNewtons *
       ((this.lateralParameters.pvy1 +
         this.lateralParameters.pvy2 * deltaVerticalLoad) *
         this.scalingParameters.lvy) *
@@ -148,16 +152,15 @@ class HarshAndShyrokau2019 extends Pacejka2002 {
     const shiftedBAlpha = clamp(
       B * (slipAngleRadians + horizontalShift),
       -Math.PI / 2 + DEFAULT_EPSILON,
-      Math.PI / 2 - DEFAULT_EPSILON
+      Math.PI / 2 - DEFAULT_EPSILON,
     )
 
-    target[0] =
-      D *
+    target[0] = D *
         Math.sin(
           C *
             Math.atan(
-              shiftedBAlpha - E * (shiftedBAlpha - Math.atan(shiftedBAlpha))
-            )
+              shiftedBAlpha - E * (shiftedBAlpha - Math.atan(shiftedBAlpha)),
+            ),
         ) +
       verticalShift
     target[1] = horizontalShift + verticalShift / BCD
@@ -180,18 +183,17 @@ class HarshAndShyrokau2019 extends Pacejka2002 {
     verticalLoadNewtons,
     inclinationAngleRadians,
     coefficientOfFriction,
-    temperatureCelsius
+    temperatureCelsius,
   ) {
     const referenceCoefficientOfFriction = this.properties.get('MU0') || 0.8
-    const scaledNominalVerticalLoad =
-      this.verticalParameters.fNomin * this.scalingParameters.lfzo
+    const scaledNominalVerticalLoad = this.verticalParameters.fNomin *
+      this.scalingParameters.lfzo
     const deltaVerticalLoad =
       (verticalLoadNewtons - scaledNominalVerticalLoad) /
       scaledNominalVerticalLoad
     const C = this.longitudinalParameters.pcx1 * this.scalingParameters.lcx
-    const mu =
-      (this.longitudinalParameters.pdx1 +
-        this.longitudinalParameters.pdx2 * deltaVerticalLoad) *
+    const mu = (this.longitudinalParameters.pdx1 +
+      this.longitudinalParameters.pdx2 * deltaVerticalLoad) *
       (1.0 -
         this.longitudinalParameters.pdx3 *
           Math.pow(inclinationAngleRadians, 2)) *
@@ -201,40 +203,33 @@ class HarshAndShyrokau2019 extends Pacejka2002 {
       (temperatureCelsius - this.temperatureParameters.tref) /
       this.temperatureParameters.tref
     // Unique to model
-    const dBase =
-      (mu * verticalLoadNewtons * coefficientOfFriction) /
+    const dBase = (mu * verticalLoadNewtons * coefficientOfFriction) /
       referenceCoefficientOfFriction
-    const D =
-      (1 +
-        this.temperatureParameters.tx3 * deltaTemperature +
-        this.temperatureParameters.tx4 * Math.pow(deltaTemperature, 2)) *
+    const D = (1 +
+      this.temperatureParameters.tx3 * deltaTemperature +
+      this.temperatureParameters.tx4 * Math.pow(deltaTemperature, 2)) *
       dBase
     //
-    let E =
-      (this.longitudinalParameters.pex1 +
-        this.longitudinalParameters.pex2 * deltaVerticalLoad +
-        this.longitudinalParameters.pex3 * Math.pow(deltaVerticalLoad, 2)) *
+    let E = (this.longitudinalParameters.pex1 +
+      this.longitudinalParameters.pex2 * deltaVerticalLoad +
+      this.longitudinalParameters.pex3 * Math.pow(deltaVerticalLoad, 2)) *
       this.scalingParameters.lex
     if (E > 1.0) E = 1.0
 
     // Unique to model
-    const kxBase =
-      verticalLoadNewtons *
+    const kxBase = verticalLoadNewtons *
       (this.longitudinalParameters.pkx1 + this.longitudinalParameters.pkx2) *
       this.scalingParameters.lkx
-    const BCD =
-      (1 +
-        this.temperatureParameters.tx1 * deltaTemperature +
-        this.temperatureParameters.tx2 * Math.pow(deltaTemperature, 2)) *
+    const BCD = (1 +
+      this.temperatureParameters.tx1 * deltaTemperature +
+      this.temperatureParameters.tx2 * Math.pow(deltaTemperature, 2)) *
       kxBase
     //
     const B = BCD / (C * D)
-    const horizontalShift =
-      (this.longitudinalParameters.phx1 +
-        this.longitudinalParameters.phx2 * deltaVerticalLoad) *
+    const horizontalShift = (this.longitudinalParameters.phx1 +
+      this.longitudinalParameters.phx2 * deltaVerticalLoad) *
       this.scalingParameters.lhx
-    const verticalShift =
-      verticalLoadNewtons *
+    const verticalShift = verticalLoadNewtons *
       (this.longitudinalParameters.pvx1 +
         this.longitudinalParameters.pvx2 * deltaVerticalLoad) *
       this.scalingParameters.lvx *
@@ -246,8 +241,8 @@ class HarshAndShyrokau2019 extends Pacejka2002 {
         Math.sin(
           C *
             Math.atan(
-              shiftedBKappa - E * (shiftedBKappa - Math.atan(shiftedBKappa))
-            )
+              shiftedBKappa - E * (shiftedBKappa - Math.atan(shiftedBKappa)),
+            ),
         ) +
       verticalShift
     )
