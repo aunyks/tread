@@ -9,7 +9,7 @@ tags:
 authors:
   - name: Gerald Nash
     orcid: 0000-0002-1046-5763
-date: 13 August 2017
+date: 20 June 2024
 bibliography: paper.bib
 ---
 
@@ -30,7 +30,7 @@ TreadJS addresses this gap by offering an open source JavaScript library specifi
 
 TreadJS includes modules for both parsing an industry standard tire model file format and utilizing various tire models. Each of these modules can be directly imported into JavaScript projects, allowing researchers and developers fine-grained control of the amount of code that's loaded by their projects. TreadJS ultimately serves as an extensible platform for further tire model research and development.
 
-## Tire Model File Parser Module
+## Tire model file parser module
 
 A key component of TreadJS' functionality is its ability to parse Tyre Property Files (*.tir file extension), which are commonly used to initialize empirical tire models. An example of this is as follows:
 
@@ -76,7 +76,7 @@ const tireConditions = properties.get('TIRE_CONDITIONS')
 const nominalInflationPressure = tireConditions.get('IP_NOM')
 ```
 
-## Tire Models
+## Tire models
 
 The library also provides a set of existing empirical models. These include the "Magic Formula" model by @pacejka2012tire and an extension of the Magic Formula model that incorporates temperature effects on tire force capabilities by @harsh2019tire. An example use of the Magic Formula model is as follows:
 
