@@ -25,7 +25,7 @@ const slipRatio = 0.25
 // Get our model outputs
 const latForceOutputVector = [0, 0, 0, 0]
 pac2002Model.computeLateralForce(
-  angleRad,
+  slipAngle,
   pac2002Model.verticalParameters.fNomin,
   0,
   1.0,
@@ -56,7 +56,7 @@ with any JavaScript runtime, or use it in the browser.
 ### Browser
 
 ```javascript
-import * as Tread from 'https://jsr.io/@hivoltagexyz/tread/2024.6.3/src/mod.js'
+import * as Tread from 'https://jsr.io/@hivoltagexyz/tread/2024.6.4/src/mod.js'
 ```
 
 ### Deno

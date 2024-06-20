@@ -32,7 +32,7 @@ const slipRatio = 0.25
 // Get our model outputs
 const latForceOutputVector = [0, 0, 0, 0]
 pac2002Model.computeLateralForce(
-  angleRad,
+  slipAngle,
   pac2002Model.verticalParameters.fNomin,
   0,
   1.0,
