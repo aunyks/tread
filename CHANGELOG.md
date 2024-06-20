@@ -1,3 +1,7 @@
+## 2024.6.5
+
+- Export additional objects with Pacejka2002 model
+
 ## 2024.6.4
 
 - Updated typo in documentation

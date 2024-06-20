@@ -8,4 +8,4 @@ class TirLoadError extends Error {
 class TirSyntaxError extends TirLoadError {}
 class ModelLoadingError extends TirLoadError {}
 
-export { ModelLoadingError, TirSyntaxError, TirLoadError }
+export { ModelLoadingError, TirLoadError, TirSyntaxError }

@@ -156,6 +156,8 @@ QHZ3                     = 0.11998              $Variation of shift Sht with cam
 QHZ4                     = 0.059083             $Variation of shift Sht with camber and load         
 QTZ1                     = 0.2                  $Gyration torque constant         
 MBELT                    = 5.4                  $Belt mass of the wheel      
+[OVERTURNING_COEFFICIENTS]
+QSX2 = 0.004
 ! [INCLINATION_ANGLE_RANGE]
 !CAMMIN                   = -0.26181             $Minimum valid camber angle         
 !CAMMAX                   = 0.26181              $Maximum valid camber angle    

@@ -56,7 +56,7 @@ with any JavaScript runtime, or use it in the browser.
 ### Browser
 
 ```javascript
-import * as Tread from 'https://jsr.io/@hivoltagexyz/tread/2024.6.4/src/mod.js'
+import * as Tread from 'https://jsr.io/@hivoltagexyz/tread/2024.6.5/src/mod.js'
 ```
 
 ### Deno
@@ -89,7 +89,8 @@ See `examples/` for a growing list of example use cases for this library.
 
 ## Documentation
 
-See [jsr.io/@hivoltagexyz/tread/doc](https://jsr.io/@hivoltagexyz/tread/doc) for this library's documentation.
+See [jsr.io/@hivoltagexyz/tread/doc](https://jsr.io/@hivoltagexyz/tread/doc) for
+this library's documentation.
 
 ## Versioning
 

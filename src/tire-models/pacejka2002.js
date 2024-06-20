@@ -97,8 +97,6 @@ class Pacejka2002 extends BaseTireModel {
       unloadedTireRadius: 0.0,
       tireWidth: 0.0,
       aspectRatio: 0.0,
-      rimRadius: 0.0,
-      rimWidth: 0.0,
     }
 
     this.verticalParameters = {
@@ -1254,4 +1252,10 @@ class Pacejka2002 extends BaseTireModel {
   }
 }
 
-export { Pacejka2002, PropertyNotFoundError, SectionNotFoundError }
+export {
+  CALCULATION_MODE,
+  Pacejka2002,
+  PropertyNotFoundError,
+  SectionNotFoundError,
+  TIRE_SIDE,
+}
