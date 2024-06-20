@@ -10,7 +10,7 @@ A JavaScript library for modeling and realtime simulation of automotive tires.
 ## Example
 
 ```javascript
-import { Pacejka2002 } from 'https://jsr.io/@hivoltagexyz/tread/2024.6.2/src/mod.js'
+import { Pacejka2002, TireProperties } from '@hivoltagexyz/tread'
 
 // Load tire properties
 const properties = new TireProperties()
@@ -65,3 +65,5 @@ component (`YYYY.MM`) of the library's version.
 export * from './parsers/mod.js'
 export * from './tire-models/mod.js'
 export * from './math.js'
+export * from './tire-properties.js'
+export * from './shared.js'

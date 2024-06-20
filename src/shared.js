@@ -1,11 +1,11 @@
-class TreadTechError extends Error {
+class TirLoadError extends Error {
   constructor(message) {
     super(message)
     this.name = this.constructor.name
   }
 }
 
-class TirSyntaxError extends TreadTechError {}
-class ModelLoadingError extends TreadTechError {}
+class TirSyntaxError extends TirLoadError {}
+class ModelLoadingError extends TirLoadError {}
 
-export { ModelLoadingError, TirSyntaxError, TreadTechError }
+export { ModelLoadingError, TirSyntaxError, TirLoadError }

@@ -3,7 +3,7 @@
 A JavaScript library for modeling and realtime simulation of automotive tires.
 
 ```javascript
-import { Pacejka2002 } from 'https://jsr.io/@hivoltagexyz/tread/2024.6.2/src/mod.js'
+import { Pacejka2002, TireProperties } from '@hivoltagexyz/tread'
 
 // Load tire properties
 const properties = new TireProperties()
