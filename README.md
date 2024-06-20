@@ -56,7 +56,7 @@ with any JavaScript runtime, or use it in the browser.
 ### Browser
 
 ```javascript
-import * as Tread from 'https://jsr.io/@hivoltagexyz/tread/2024.6.2/src/mod.js'
+import * as Tread from 'https://jsr.io/@hivoltagexyz/tread/2024.6.3/src/mod.js'
 ```
 
 ### Deno

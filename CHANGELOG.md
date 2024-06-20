@@ -1,3 +1,7 @@
+## 2024.6.3
+
+- Export `.tir` file loading errors and `TireProperties` object.
+
 ## 2024.6.2
 
 - Updated documentation
